@@ -68,14 +68,9 @@ This is a **pure static app** — no build step, no backend needed.
 
 ```
 pastel-diary/
-├── index.html        ← structure & layout
-├── style.css         ← all styling, themes, animations
-├── script.js         ← all logic, storage, features
-├── gemini-proxy.js   ← (legacy backend, not used by frontend)
-├── package.json      ← backend dependencies
-├── .env              ← 🔒 local secrets (gitignored)
-├── .env.example      ← template (safe to commit)
-├── .gitignore
+├── index.html   ← structure & layout
+├── style.css    ← all styling, themes & animations
+├── script.js    ← all logic, storage & features
 └── README.md
 ```
 
