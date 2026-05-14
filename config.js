@@ -7,4 +7,4 @@
                e.g. https://pastel-diary-backend.up.railway.app
    ============================================================ */
 
-window.BACKEND_URL = 'http://localhost:3001';
+window.BACKEND_URL = 'https://pastel-diary-backend.onrender.com';
