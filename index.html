@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Pastel Diary</title>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+
+  <!-- Floating blobs background -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+
+  <!-- Setup Screen (first launch) -->
+  <div class="setup-screen" id="setupScreen">
+    <div class="setup-card">
+      <div class="setup-petal" aria-hidden="true">🌸</div>
+      <h1 class="setup-title">Hello, dear one.</h1>
+      <p class="setup-sub">What shall we call this diary?</p>
+      <input
+        type="text"
+        id="diaryNameInput"
+        class="setup-input"
+        placeholder="e.g. Aria's Diary, My Little World…"
+        maxlength="40"
+        autocomplete="off"
+      />
+      <p class="setup-sub" style="margin-top:1.5rem">Your Gemini API key (for real AI responses)</p>
+      <input
+        type="password"
+        id="apiKeyInput"
+        class="setup-input"
+        placeholder="AIza..."
+        autocomplete="off"
+      />
+      <small class="setup-note">Stored only in your browser. Never sent anywhere except Google Gemini.</small>
+      <button class="setup-btn" id="setupBtn">Begin ✨</button>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div class="app" id="app" style="display:none">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="diary-name" id="diaryNameDisplay">My Diary</div>
+        <button class="settings-btn" id="settingsBtn" title="Settings">⚙️</button>
+      </div>
+      <div class="graph-section">
+        <div class="section-label">Mood — last 7 days</div>
+        <canvas id="moodCanvas" width="220" height="90"></canvas>
+        <div class="mood-legend">
+          <span>😞</span><span style="margin-left:auto">😄</span>
+        </div>
+      </div>
+      <div class="section-label" style="margin-top:1.2rem">Past entries</div>
+      <div class="entry-list" id="entryList">
+        <div class="empty-state">No entries yet.<br/>Write your first one →</div>
+      </div>
+      <div class="sidebar-footer">
+        <button class="footer-btn" id="exportBtn" title="Export all entries as text">Export 📄</button>
+        <button class="footer-btn" id="newEntryBtn">+ New</button>
+      </div>
+    </aside>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+    <main class="main-area">
+      <div class="editor-wrap">
+        <div class="date-bar">
+          <span class="date-display" id="dateDisplay"></span>
+          <button class="date-edit-btn" id="dateEditBtn" title="Change date">✏️</button>
+          <input type="date" id="dateInput" class="date-input" style="display:none" />
+        </div>
+        <div class="mood-row">
+          <span class="mood-label">How are you feeling?</span>
+          <div class="mood-picks" id="moodPicks">
+            <button class="mood-btn" data-mood="1" title="Sad">😞</button>
+            <button class="mood-btn" data-mood="2" title="Meh">😕</button>
+            <button class="mood-btn" data-mood="3" title="Okay">😐</button>
+            <button class="mood-btn" data-mood="4" title="Good">🙂</button>
+            <button class="mood-btn" data-mood="5" title="Happy">😄</button>
+          </div>
+        </div>
+        <input
+          type="text"
+          id="entryTitle"
+          class="entry-title"
+          placeholder="Give this entry a title…"
+          maxlength="80"
+          autocomplete="off"
+        />
+        <textarea
+          id="entryBody"
+          class="entry-body"
+          placeholder="Dear diary… write as much as you want. Your words are safe here."
+        ></textarea>
+        <div class="action-bar">
+          <div class="char-count" id="charCount">0 words</div>
+          <div class="action-btns">
+            <button class="ask-ai-btn" id="askAiBtn">✨ Ask AI</button>
+            <button class="save-btn" id="saveBtn">Save entry 💾</button>
+          </div>
+        </div>
+        <div class="ai-panel" id="aiPanel" style="display:none">
+          <div class="ai-panel-header">
+            <span class="ai-icon">🌸</span>
+            <span class="ai-title">Reflections from your diary companion</span>
+            <button class="ai-close" id="aiClose">✕</button>
+          </div>
+          <div class="ai-response" id="aiResponse">
+            <div class="ai-loading" id="aiLoading">
+              <div class="dot-row"><span></span><span></span><span></span></div>
+              <p>Reading your words…</p>
+            </div>
+            <div class="ai-text" id="aiText" style="display:none"></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Settings modal -->
+  <div class="modal-overlay" id="settingsModal" style="display:none">
+    <div class="modal-card">
+      <h2 class="modal-title">Settings 🌷</h2>
+      <label class="modal-label">Diary name</label>
+      <input type="text" id="settingsDiaryName" class="setup-input" maxlength="40" />
+      <label class="modal-label" style="margin-top:1rem">Gemini API key</label>
+      <input type="password" id="settingsApiKey" class="setup-input" />
+      <small class="setup-note">Stored only in your browser. Never sent anywhere except Google Gemini.</small>
+      <div class="modal-btns">
+        <button class="footer-btn" id="settingsCancel">Cancel</button>
+        <button class="save-btn" id="settingsSave">Save changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
