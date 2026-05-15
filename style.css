@@ -169,7 +169,15 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
 /* ─── Animations ──────────────────────────────────────────── */
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-/* ─── Responsive ──────────────────────────────────────────── */
+.loader-overlay{position:fixed;inset:0;z-index:250;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25);backdrop-filter:blur(8px);}
+.loader-card{background:var(--card);border-radius:20px;padding:2rem 2.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem;box-shadow:0 20px 50px rgba(0,0,0,.15);}
+.loader-dots{display:flex;gap:.5rem;}
+.loader-dots span{width:10px;height:10px;border-radius:50%;background:var(--accent);animation:lbounce .9s ease-in-out infinite;}
+.loader-dots span:nth-child(2){animation-delay:.2s;}
+.loader-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes lbounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.loader-text{font-size:.85rem;color:var(--txt-m);font-style:italic;}
+
 @media(max-width:720px){
   .app{grid-template-columns:1fr;}
   .sidebar{position:fixed;left:-280px;top:0;bottom:0;width:260px;z-index:90;transition:left .3s;}

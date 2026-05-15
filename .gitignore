@@ -1,9 +1,6 @@
-# OS files
+node_modules/
+.env
 .DS_Store
 Thumbs.db
-
-# Editor files
 .vscode/
 .idea/
-*.swp
-*.swo
