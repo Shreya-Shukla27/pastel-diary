@@ -119,6 +119,7 @@ python -m http.server 8080
 - Click ✏️ next to the date to backdate an entry
 - Type a tag + **Enter** to add it — click tags in sidebar to filter
 - Entries sync across all your devices automatically
+-  Use themes to personalize your journaling experience
 
 ---
 
