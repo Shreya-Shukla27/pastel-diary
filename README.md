@@ -130,4 +130,11 @@ python -m http.server 8080
 
 ---
 
+## 🤝 Contributing
+
+Contributions, feature suggestions, and bug reports are welcome.
+Feel free to open an issue or submit a pull request.
+
+---
+
 *Made with pastels, patience, and care 🌸*
