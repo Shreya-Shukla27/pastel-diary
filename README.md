@@ -134,6 +134,7 @@ python -m http.server 8080
 
 Contributions, feature suggestions, and bug reports are welcome.
 Feel free to open an issue or submit a pull request.
+⭐ If you like this project, consider giving it a star.
 
 ---
 
