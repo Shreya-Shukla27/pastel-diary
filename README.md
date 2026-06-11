@@ -1,4 +1,4 @@
-# 🌸 Pastel Diary
+# 🌸 Pastel Diary 
 
 A soft, dreamy personal diary with cloud storage, mood tracking, and a beautiful pastel aesthetic.
 
@@ -10,12 +10,12 @@ A soft, dreamy personal diary with cloud storage, mood tracking, and a beautiful
 
 | Feature | Description |
 |---|---|
-| ☁️ **Cloud Storage** | Entries saved to MongoDB — accessible from any device |
-| 🎨 **5 Themes** | Pink, Lavender, Mint, Peach, Sky — switchable anytime |
+| ☁️ **Cloud Storage** | Entries saved to MongoDB- accessible from any device |
+| 🎨 **5 Themes** | Pink, Lavender, Mint, Peach, Sky- switchable anytime |
 | 🌙 **Dark Mode** | Elegant dark theme, toggled from sidebar or Settings |
 | 🔒 **PIN Lock** | Optional 4-digit PIN to protect your diary on load |
 | 🏷️ **Tags** | Add tags to entries, filter the sidebar by tag |
-| 📸 **Photos** | Attach one photo per entry — auto-compressed |
+| 📸 **Photos** | Attach one photo per entry- auto-compressed |
 | 💡 **Writing Prompts** | 21 thoughtful prompts to help you start writing |
 | ⏰ **Daily Reminder** | Browser notification at a time you choose |
 | 📊 **Mood Graph** | Smooth bezier curve showing mood over last 7 days |
@@ -117,7 +117,7 @@ python -m http.server 8080
 
 - **Ctrl/Cmd + S** saves your entry from anywhere
 - Click ✏️ next to the date to backdate an entry
-- Type a tag + **Enter** to add it — click tags in sidebar to filter
+- Type a tag + **Enter** to add it- click tags in sidebar to filter
 - Entries sync across all your devices automatically
 - Use themes to personalize your journaling experience
 - Enjoy a calm and distraction-free journaling experience
