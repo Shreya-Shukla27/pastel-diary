@@ -79,7 +79,15 @@ async function init() {
       config = { ...config, ...cfg };
       applyTheme(config.theme); applyDark(config.dark);
     }
-  } catch(e) { showToast('Cannot reach server. Check your connection.'); showLoader(false); return; }
+  } catch(e) {
+    showToast('Cannot reach server — starting fresh.');
+    showLoader(false);
+    // Clear stale ID and show setup so the UI is still usable
+    localStorage.removeItem('pd_id');
+    diaryId = null;
+    setupScreen.style.display = 'flex';
+    return;
+  }
   showLoader(false);
 
   if (config.pin) { showPinScreen(); return; }
@@ -370,3 +378,106 @@ $('setupThemePicker').querySelectorAll('.theme-swatch').forEach(s=>s.addEventLis
 
 // ─── Start ────────────────────────────────────────────────────
 init();
+
+// ─── Floating Particles System ────────────────────────────────
+(function initParticles() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const PARTICLE_COUNT = 50;
+  let w, h;
+  let animId;
+
+  // Theme-aware colors
+  function getParticleColors() {
+    const style = getComputedStyle(document.documentElement);
+    const accent = style.getPropertyValue('--accent').trim() || 'hsl(340,55%,62%)';
+    const accent2 = style.getPropertyValue('--accent2').trim() || 'hsl(280,50%,68%)';
+    const accentSoft = style.getPropertyValue('--accent-soft').trim() || 'hsl(340,80%,88%)';
+    return [accent, accent2, accentSoft, 'rgba(255,255,255,0.4)'];
+  }
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+
+  function createParticle(yOverride) {
+    const colors = getParticleColors();
+    return {
+      x: Math.random() * w,
+      y: yOverride !== undefined ? yOverride : Math.random() * h,
+      r: Math.random() * 2.5 + 0.8,
+      speedY: -(Math.random() * 0.25 + 0.08),
+      speedX: (Math.random() - 0.5) * 0.15,
+      wobbleAmp: Math.random() * 0.6 + 0.2,
+      wobbleFreq: Math.random() * 0.015 + 0.005,
+      phase: Math.random() * Math.PI * 2,
+      opacity: Math.random() * 0.35 + 0.1,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      life: 0,
+    };
+  }
+
+  function initAll() {
+    resize();
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(createParticle());
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      p.life++;
+      p.y += p.speedY;
+      p.x += p.speedX + Math.sin(p.life * p.wobbleFreq + p.phase) * p.wobbleAmp;
+
+      // Wrap around
+      if (p.y < -10) {
+        Object.assign(p, createParticle(h + 10));
+      }
+      if (p.x < -10) p.x = w + 10;
+      if (p.x > w + 10) p.x = -10;
+
+      // Fade in/out near edges
+      let alpha = p.opacity;
+      if (p.y < 60) alpha *= p.y / 60;
+      if (p.y > h - 60) alpha *= (h - p.y) / 60;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = alpha;
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    animId = requestAnimationFrame(draw);
+  }
+
+  // Respect reduced motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  window.addEventListener('resize', () => {
+    resize();
+    // Re-distribute on big resize
+    particles.forEach(p => {
+      if (p.x > w) p.x = Math.random() * w;
+      if (p.y > h) p.y = Math.random() * h;
+    });
+  });
+
+  initAll();
+  draw();
+
+  // Refresh particle colors when theme changes
+  const observer = new MutationObserver(() => {
+    const colors = getParticleColors();
+    particles.forEach(p => {
+      p.color = colors[Math.floor(Math.random() * colors.length)];
+    });
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-dark'] });
+})();
