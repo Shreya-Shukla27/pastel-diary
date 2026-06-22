@@ -28,7 +28,8 @@ const PROMPTS = [
 // ─── State ────────────────────────────────────────────────────
 let entries = [], currentId = null, selectedMood = 0, currentTags = [],
     currentPhoto = null, activeTagFilter = null, pinBuffer = '', diaryId = null,
-    config = { diaryName:'My Diary', theme:'pink', dark:false, pin:'', reminderTime:'' };
+    config = { diaryName:'My Diary', theme:'pink', dark:false, pin:'', reminderTime:'' },
+    calYear, calMonth; // for mini calendar navigation
 
 // ─── DOM ──────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -50,6 +51,33 @@ const photoInput=$('photoInput'), photoPreview=$('photoPreview'), photoImg=$('ph
 const promptBtn=$('promptBtn'), promptBubble=$('promptBubble'), promptText=$('promptText'), promptUse=$('promptUse'), promptNext=$('promptNext');
 const pinDots=$('pinDots'), pinError=$('pinError'), pinDiaryName=$('pinDiaryName');
 const reminderTime=$('reminderTime'), reminderBtn=$('reminderBtn'), reminderClear=$('reminderClear');
+const greetingText=$('greetingText'), streakCount=$('streakCount'), entryCount=$('entryCount');
+const todayMoodEmoji=$('todayMoodEmoji'), calTitle=$('calTitle'), miniCalGrid=$('miniCalGrid');
+const calPrev=$('calPrev'), calNext=$('calNext'), quoteText=$('quoteText');
+
+// ─── Inspirational Quotes ─────────────────────────────────────
+const QUOTES = [
+  "The only way to do great work is to love what you do.",
+  "In the middle of difficulty lies opportunity.",
+  "Write hard and clear about what hurts.",
+  "Every day is a chance to begin again.",
+  "The journal is a vehicle for my sense of selfhood.",
+  "Fill your paper with the breathings of your heart.",
+  "One day you will tell your story of how you overcame what you went through.",
+  "You are never too old to set another goal or to dream a new dream.",
+  "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
+  "Start where you are. Use what you have. Do what you can.",
+  "Journaling is like whispering to one's self and listening at the same time.",
+  "The beautiful thing about writing is that you don't have to get it right the first time.",
+  "To write is to carve a new path through the terrain of the imagination.",
+  "Be yourself; everyone else is already taken.",
+  "Life isn't about finding yourself. Life is about creating yourself.",
+  "What a wonderful thought it is that some of the best days of our lives haven't happened yet.",
+  "You are enough just as you are.",
+  "Happiness is not something ready-made. It comes from your own actions.",
+  "The secret of getting ahead is getting started.",
+  "Your story matters. Tell it.",
+];
 
 // ─── API helper ───────────────────────────────────────────────
 async function api(path, method='GET', body=null) {
@@ -109,8 +137,8 @@ setupBtn.addEventListener('click', async () => {
   showLoader(true);
   try {
     await api(`/config/${diaryId}`, 'PUT', config);
-    cacheConfig();
-  } catch(e) { showToast('Could not connect to server.'); showLoader(false); return; }
+  } catch(e) { /* offline mode — continue anyway */ }
+  cacheConfig();
   await launchApp();
 });
 diaryNameInput.addEventListener('keydown', e => { if(e.key==='Enter') setupBtn.click(); });
@@ -148,13 +176,14 @@ async function launchApp() {
   try {
     const data = await api(`/entries/${diaryId}`);
     entries = data.map(e => ({ ...e, id: e.entryId }));
-  } catch(e) { showToast('Could not load entries.'); }
+  } catch(e) { /* offline — start with empty entries */ }
   showLoader(false);
 
   appEl.style.display = 'grid';
   diaryNameDisplay.textContent = config.diaryName;
   document.title = config.diaryName;
   setTodayDate(); renderEntryList(); drawMoodGraph(); newEntry(); renderTagFilter();
+  updateGreeting(); updateStats(); renderMiniCalendar(); renderDailyQuote(); updateTodayMood();
   if (config.reminderTime) scheduleReminder(config.reminderTime);
 }
 
@@ -210,6 +239,7 @@ async function saveCurrentEntry() {
       showToast('Entry saved 🌸');
     }
     renderEntryList(); drawMoodGraph(); renderTagFilter();
+    updateStats(); renderMiniCalendar(calYear, calMonth); updateTodayMood();
   } catch(e) { showToast('Could not save. Check connection.'); }
   saveBtn.disabled = false;
 }
@@ -274,7 +304,8 @@ photoInput.addEventListener('change',()=>{
   reader.readAsDataURL(file); photoInput.value='';
 });
 photoRemove.addEventListener('click',()=>{currentPhoto=null;photoPreview.style.display='none';photoImg.src='';});
-document.querySelector('.photo-label').addEventListener('click',()=>photoInput.click());
+const photoLabelEl = document.querySelector('.toolbar-btn');
+if (photoLabelEl) photoLabelEl.addEventListener('click', () => photoInput.click());
 
 // ─── Writing Prompts ──────────────────────────────────────────
 let lastP=-1;
@@ -282,6 +313,111 @@ function getPrompt(){ let i; do{i=Math.floor(Math.random()*PROMPTS.length);}whil
 promptBtn.addEventListener('click',()=>{promptText.textContent=getPrompt();promptBubble.style.display='flex';});
 promptNext.addEventListener('click',()=>{promptText.textContent=getPrompt();});
 promptUse.addEventListener('click',()=>{entryBody.value=(entryBody.value?entryBody.value+'\n\n':'')+promptText.textContent;promptBubble.style.display='none';entryBody.focus();});
+// ─── Sidebar Widgets ──────────────────────────────────────────
+
+// Greeting — time-aware
+function updateGreeting() {
+  if (!greetingText) return;
+  const h = new Date().getHours();
+  let g = 'Good Evening';
+  if (h < 12) g = 'Good Morning';
+  else if (h < 17) g = 'Good Afternoon';
+  greetingText.textContent = g;
+}
+
+// Stats — streak + entry count
+function updateStats() {
+  if (!streakCount || !entryCount) return;
+  entryCount.textContent = entries.length;
+
+  // Calculate streak: consecutive days with entries ending today or yesterday
+  if (!entries.length) { streakCount.textContent = '0'; return; }
+  const entryDates = new Set(entries.map(e => e.date));
+  let streak = 0;
+  const d = new Date();
+  // Check if today has an entry, if not start from yesterday
+  const todayISO = d.toISOString().split('T')[0];
+  if (!entryDates.has(todayISO)) {
+    d.setDate(d.getDate() - 1);
+  }
+  for (let i = 0; i < 365; i++) {
+    const iso = d.toISOString().split('T')[0];
+    if (entryDates.has(iso)) { streak++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  streakCount.textContent = streak;
+}
+
+// Today's Mood
+function updateTodayMood() {
+  if (!todayMoodEmoji) return;
+  const todayISO = new Date().toISOString().split('T')[0];
+  const todayEntry = entries.find(e => e.date === todayISO && e.mood > 0);
+  todayMoodEmoji.textContent = todayEntry ? moodEmoji(todayEntry.mood) : '—';
+}
+
+// Mini Calendar
+function renderMiniCalendar(year, month) {
+  if (!miniCalGrid) return;
+  const now = new Date();
+  if (year === undefined) { calYear = now.getFullYear(); calMonth = now.getMonth(); }
+  else { calYear = year; calMonth = month; }
+
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  calTitle.textContent = `${months[calMonth]} ${calYear}`;
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const entryDates = new Set(entries.map(e => e.date));
+  const todayISO = now.toISOString().split('T')[0];
+
+  // Keep the day-of-week headers, rebuild days
+  let html = '<span class="mini-cal-dow">Su</span><span class="mini-cal-dow">Mo</span><span class="mini-cal-dow">Tu</span><span class="mini-cal-dow">We</span><span class="mini-cal-dow">Th</span><span class="mini-cal-dow">Fr</span><span class="mini-cal-dow">Sa</span>';
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) html += '<span class="mini-cal-day empty"></span>';
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const iso = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = iso === todayISO;
+    const hasEntry = entryDates.has(iso);
+    let cls = 'mini-cal-day';
+    if (isToday) cls += ' today';
+    if (hasEntry) cls += ' has-entry';
+    html += `<span class="${cls}" data-date="${iso}">${d}</span>`;
+  }
+
+  miniCalGrid.innerHTML = html;
+
+  // Click to load entry for that day
+  miniCalGrid.querySelectorAll('.mini-cal-day.has-entry').forEach(el => {
+    el.addEventListener('click', () => {
+      const entry = entries.find(e => e.date === el.dataset.date);
+      if (entry) loadEntry(entry.id);
+    });
+  });
+}
+
+// Calendar navigation
+if (calPrev) calPrev.addEventListener('click', () => {
+  let m = calMonth - 1, y = calYear;
+  if (m < 0) { m = 11; y--; }
+  renderMiniCalendar(y, m);
+});
+if (calNext) calNext.addEventListener('click', () => {
+  let m = calMonth + 1, y = calYear;
+  if (m > 11) { m = 0; y++; }
+  renderMiniCalendar(y, m);
+});
+
+// Daily Quote — deterministic by date
+function renderDailyQuote() {
+  if (!quoteText) return;
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const idx = seed % QUOTES.length;
+  quoteText.textContent = `"${QUOTES[idx]}"`;
+}
 
 // ─── Themes ───────────────────────────────────────────────────
 function applyTheme(t, save=true){ document.documentElement.setAttribute('data-theme',t); config.theme=t; syncSwatches(t); if(save)cacheConfig(); }
