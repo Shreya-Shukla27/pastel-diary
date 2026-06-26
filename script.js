@@ -180,6 +180,9 @@ async function launchApp() {
   showLoader(false);
 
   appEl.style.display = 'grid';
+  // Trigger entrance animations
+  appEl.classList.add('entrance');
+  setTimeout(() => appEl.classList.remove('entrance'), 2000);
   diaryNameDisplay.textContent = config.diaryName;
   document.title = config.diaryName;
   setTodayDate(); renderEntryList(); drawMoodGraph(); newEntry(); renderTagFilter();
@@ -200,7 +203,8 @@ dateEditBtn.addEventListener('click',()=>{ const h=dateInput.style.display==='no
 dateInput.addEventListener('change',()=>{ updateDateDisplay(dateInput.value); dateInput.style.display='none'; });
 
 // ─── Mood ─────────────────────────────────────────────────────
-moodPicks.addEventListener('click',e=>{ const b=e.target.closest('.mood-btn'); if(!b)return; document.querySelectorAll('.mood-btn').forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); selectedMood=parseInt(b.dataset.mood); });
+// ─── Mood ─────────────────────────────────────────────────────────
+moodPicks.addEventListener('click',e=>{ const b=e.target.closest('.mood-btn'); if(!b)return; document.querySelectorAll('.mood-btn').forEach(x=>{x.classList.remove('selected');x.classList.remove('mood-bounce');}); b.classList.add('selected'); b.classList.add('mood-bounce'); b.addEventListener('animationend',()=>b.classList.remove('mood-bounce'),{once:true}); selectedMood=parseInt(b.dataset.mood); });
 function setMood(v) { selectedMood=v; document.querySelectorAll('.mood-btn').forEach(b=>b.classList.toggle('selected',parseInt(b.dataset.mood)===v)); }
 
 // ─── Word count ───────────────────────────────────────────────
@@ -240,6 +244,9 @@ async function saveCurrentEntry() {
     }
     renderEntryList(); drawMoodGraph(); renderTagFilter();
     updateStats(); renderMiniCalendar(calYear, calMonth); updateTodayMood();
+    // Save success animation
+    saveBtn.classList.add('save-success');
+    saveBtn.addEventListener('animationend', () => saveBtn.classList.remove('save-success'), {once:true});
   } catch(e) { showToast('Could not save. Check connection.'); }
   saveBtn.disabled = false;
 }
@@ -515,13 +522,13 @@ $('setupThemePicker').querySelectorAll('.theme-swatch').forEach(s=>s.addEventLis
 // ─── Start ────────────────────────────────────────────────────
 init();
 
-// ─── Floating Particles System ────────────────────────────────
+// ─── Floating Petals & Stars System ─────────────────────────────
 (function initParticles() {
   const canvas = document.getElementById('particleCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let particles = [];
-  const PARTICLE_COUNT = 50;
+  const PARTICLE_COUNT = 55;
   let w, h;
   let animId;
 
@@ -531,7 +538,7 @@ init();
     const accent = style.getPropertyValue('--accent').trim() || 'hsl(340,55%,62%)';
     const accent2 = style.getPropertyValue('--accent2').trim() || 'hsl(280,50%,68%)';
     const accentSoft = style.getPropertyValue('--accent-soft').trim() || 'hsl(340,80%,88%)';
-    return [accent, accent2, accentSoft, 'rgba(255,255,255,0.4)'];
+    return [accent, accent2, accentSoft, 'rgba(255,255,255,0.5)'];
   }
 
   function resize() {
@@ -541,19 +548,63 @@ init();
 
   function createParticle(yOverride) {
     const colors = getParticleColors();
+    // 60% petals, 30% sparkles, 10% dots
+    const rand = Math.random();
+    let type = 'petal';
+    if (rand > 0.7) type = 'star';
+    else if (rand > 0.6) type = 'dot';
     return {
       x: Math.random() * w,
       y: yOverride !== undefined ? yOverride : Math.random() * h,
-      r: Math.random() * 2.5 + 0.8,
-      speedY: -(Math.random() * 0.25 + 0.08),
-      speedX: (Math.random() - 0.5) * 0.15,
-      wobbleAmp: Math.random() * 0.6 + 0.2,
-      wobbleFreq: Math.random() * 0.015 + 0.005,
+      r: type === 'petal' ? Math.random() * 4 + 3 : (type === 'star' ? Math.random() * 3 + 2 : Math.random() * 2 + 0.5),
+      speedY: -(Math.random() * 0.2 + 0.05),
+      speedX: (Math.random() - 0.5) * 0.12,
+      wobbleAmp: Math.random() * 0.8 + 0.3,
+      wobbleFreq: Math.random() * 0.012 + 0.003,
       phase: Math.random() * Math.PI * 2,
-      opacity: Math.random() * 0.35 + 0.1,
+      opacity: type === 'star' ? Math.random() * 0.5 + 0.2 : Math.random() * 0.3 + 0.08,
       color: colors[Math.floor(Math.random() * colors.length)],
+      rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.02,
+      type,
+      twinklePhase: Math.random() * Math.PI * 2,
+      twinkleSpeed: Math.random() * 0.04 + 0.02,
       life: 0,
     };
+  }
+
+  // Draw a petal shape
+  function drawPetal(ctx, x, y, size, rotation) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotation);
+    ctx.beginPath();
+    ctx.moveTo(0, -size);
+    ctx.bezierCurveTo(size * 0.8, -size * 0.6, size * 0.6, size * 0.4, 0, size);
+    ctx.bezierCurveTo(-size * 0.6, size * 0.4, -size * 0.8, -size * 0.6, 0, -size);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // Draw a 4-pointed sparkle star
+  function drawStar(ctx, x, y, size, rotation) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotation);
+    ctx.beginPath();
+    const spikes = 4;
+    const outerR = size;
+    const innerR = size * 0.3;
+    for (let i = 0; i < spikes * 2; i++) {
+      const r = i % 2 === 0 ? outerR : innerR;
+      const angle = (i * Math.PI) / spikes - Math.PI / 2;
+      if (i === 0) ctx.moveTo(Math.cos(angle) * r, Math.sin(angle) * r);
+      else ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
   }
 
   function initAll() {
@@ -570,24 +621,37 @@ init();
       p.life++;
       p.y += p.speedY;
       p.x += p.speedX + Math.sin(p.life * p.wobbleFreq + p.phase) * p.wobbleAmp;
+      p.rotation += p.rotSpeed;
 
       // Wrap around
-      if (p.y < -10) {
-        Object.assign(p, createParticle(h + 10));
+      if (p.y < -20) {
+        Object.assign(p, createParticle(h + 20));
       }
-      if (p.x < -10) p.x = w + 10;
-      if (p.x > w + 10) p.x = -10;
+      if (p.x < -20) p.x = w + 20;
+      if (p.x > w + 20) p.x = -20;
 
       // Fade in/out near edges
       let alpha = p.opacity;
-      if (p.y < 60) alpha *= p.y / 60;
-      if (p.y > h - 60) alpha *= (h - p.y) / 60;
+      if (p.y < 80) alpha *= p.y / 80;
+      if (p.y > h - 80) alpha *= (h - p.y) / 80;
 
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      // Twinkle effect for stars
+      if (p.type === 'star') {
+        alpha *= 0.5 + 0.5 * Math.sin(p.life * p.twinkleSpeed + p.twinklePhase);
+      }
+
       ctx.fillStyle = p.color;
-      ctx.globalAlpha = alpha;
-      ctx.fill();
+      ctx.globalAlpha = Math.max(0, alpha);
+
+      if (p.type === 'petal') {
+        drawPetal(ctx, p.x, p.y, p.r, p.rotation);
+      } else if (p.type === 'star') {
+        drawStar(ctx, p.x, p.y, p.r, p.rotation);
+      } else {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
     ctx.globalAlpha = 1;
     animId = requestAnimationFrame(draw);
@@ -598,7 +662,6 @@ init();
 
   window.addEventListener('resize', () => {
     resize();
-    // Re-distribute on big resize
     particles.forEach(p => {
       if (p.x > w) p.x = Math.random() * w;
       if (p.y > h) p.y = Math.random() * h;
@@ -617,3 +680,4 @@ init();
   });
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-dark'] });
 })();
+
