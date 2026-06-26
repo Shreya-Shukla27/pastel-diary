@@ -3,14 +3,14 @@
    ============================================================ */
 
 /* ─── Theme Variables ─────────────────────────────────────── */
-:root,[data-theme="pink"]{--b1:340deg 80% 88%;--b2:280deg 60% 85%;--b3:320deg 70% 90%;--b4:200deg 60% 88%;--accent:hsl(340,55%,62%);--accent2:hsl(280,50%,68%);--accent-soft:hsl(340,80%,88%);--sidebar:rgba(255,240,245,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(220,180,195,.3);--txt:hsl(330,22%,20%);--txt-m:hsl(330,12%,52%);--bg1:hsl(340,80%,96%);--bg2:hsl(270,60%,95%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
-[data-theme="lavender"]{--b1:270deg 65% 88%;--b2:290deg 55% 85%;--b3:250deg 60% 90%;--b4:220deg 55% 88%;--accent:hsl(270,50%,62%);--accent2:hsl(290,45%,65%);--accent-soft:hsl(270,70%,88%);--sidebar:rgba(245,240,255,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(200,180,230,.3);--txt:hsl(270,22%,20%);--txt-m:hsl(270,12%,52%);--bg1:hsl(270,65%,96%);--bg2:hsl(290,50%,95%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
-[data-theme="mint"]{--b1:150deg 55% 85%;--b2:170deg 45% 82%;--b3:130deg 50% 88%;--b4:180deg 50% 86%;--accent:hsl(150,45%,50%);--accent2:hsl(170,40%,55%);--accent-soft:hsl(150,60%,85%);--sidebar:rgba(235,250,243,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(170,220,195,.3);--txt:hsl(150,22%,18%);--txt-m:hsl(150,12%,48%);--bg1:hsl(150,55%,95%);--bg2:hsl(170,45%,94%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
-[data-theme="peach"]{--b1:25deg 80% 88%;--b2:40deg 70% 85%;--b3:15deg 75% 90%;--b4:50deg 65% 88%;--accent:hsl(25,65%,60%);--accent2:hsl(40,60%,62%);--accent-soft:hsl(25,80%,88%);--sidebar:rgba(255,245,235,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(230,200,170,.3);--txt:hsl(25,22%,20%);--txt-m:hsl(25,12%,52%);--bg1:hsl(25,80%,96%);--bg2:hsl(40,65%,95%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
-[data-theme="sky"]{--b1:200deg 70% 86%;--b2:220deg 60% 84%;--b3:185deg 65% 88%;--b4:235deg 55% 88%;--accent:hsl(200,60%,55%);--accent2:hsl(220,55%,62%);--accent-soft:hsl(200,70%,86%);--sidebar:rgba(235,245,255,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(170,200,230,.3);--txt:hsl(200,22%,18%);--txt-m:hsl(200,12%,50%);--bg1:hsl(200,70%,95%);--bg2:hsl(220,60%,95%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
+:root,[data-theme="pink"]{--b1:340deg 80% 88%;--b2:280deg 60% 85%;--b3:320deg 70% 90%;--b4:200deg 60% 88%;--accent:hsl(340,55%,62%);--accent2:hsl(280,50%,68%);--accent-soft:hsl(340,80%,88%);--sidebar:rgba(255,240,245,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(220,180,195,.3);--txt:hsl(330,24%,26%);--txt-m:hsl(330,14%,40%);--bg1:hsl(340,80%,96%);--bg2:hsl(270,60%,95%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
+[data-theme="lavender"]{--b1:270deg 65% 88%;--b2:290deg 55% 85%;--b3:250deg 60% 90%;--b4:220deg 55% 88%;--accent:hsl(270,50%,62%);--accent2:hsl(290,45%,65%);--accent-soft:hsl(270,70%,88%);--sidebar:rgba(245,240,255,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(200,180,230,.3);--txt:hsl(270,24%,26%);--txt-m:hsl(270,14%,40%);--bg1:hsl(270,65%,96%);--bg2:hsl(290,50%,95%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
+[data-theme="mint"]{--b1:150deg 55% 85%;--b2:170deg 45% 82%;--b3:130deg 50% 88%;--b4:180deg 50% 86%;--accent:hsl(150,45%,50%);--accent2:hsl(170,40%,55%);--accent-soft:hsl(150,60%,85%);--sidebar:rgba(235,250,243,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(170,220,195,.3);--txt:hsl(150,24%,22%);--txt-m:hsl(150,14%,38%);--bg1:hsl(150,55%,95%);--bg2:hsl(170,45%,94%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
+[data-theme="peach"]{--b1:25deg 80% 88%;--b2:40deg 70% 85%;--b3:15deg 75% 90%;--b4:50deg 65% 88%;--accent:hsl(25,65%,60%);--accent2:hsl(40,60%,62%);--accent-soft:hsl(25,80%,88%);--sidebar:rgba(255,245,235,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(230,200,170,.3);--txt:hsl(25,24%,26%);--txt-m:hsl(25,14%,40%);--bg1:hsl(25,80%,96%);--bg2:hsl(40,65%,95%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
+[data-theme="sky"]{--b1:200deg 70% 86%;--b2:220deg 60% 84%;--b3:185deg 65% 88%;--b4:235deg 55% 88%;--accent:hsl(200,60%,55%);--accent2:hsl(220,55%,62%);--accent-soft:hsl(200,70%,86%);--sidebar:rgba(235,245,255,.55);--card:rgba(255,255,255,.42);--card-solid:rgba(255,255,255,.72);--border:rgba(255,255,255,.55);--border-outer:rgba(170,200,230,.3);--txt:hsl(200,24%,22%);--txt-m:hsl(200,14%,38%);--bg1:hsl(200,70%,95%);--bg2:hsl(220,60%,95%);--glass-shine:rgba(255,255,255,.35);--glass-shadow:rgba(0,0,0,.06);}
 
 /* ─── Dark Mode ────────────────────────────────────────────── */
-[data-dark="true"]{--sidebar:rgba(18,12,28,.60);--card:rgba(28,20,42,.50);--card-solid:rgba(35,25,50,.75);--border:rgba(255,255,255,.12);--border-outer:rgba(100,80,130,.3);--txt:hsl(290,20%,88%);--txt-m:hsl(290,10%,62%);--bg1:hsl(270,30%,10%);--bg2:hsl(290,25%,8%);--glass-shine:rgba(255,255,255,.08);--glass-shadow:rgba(0,0,0,.25);}
+[data-dark="true"]{--sidebar:rgba(18,12,28,.60);--card:rgba(28,20,42,.50);--card-solid:rgba(35,25,50,.75);--border:rgba(255,255,255,.12);--border-outer:rgba(100,80,130,.3);--txt:hsl(290,20%,90%);--txt-m:hsl(290,12%,68%);--bg1:hsl(270,30%,10%);--bg2:hsl(290,25%,8%);--glass-shine:rgba(255,255,255,.08);--glass-shadow:rgba(0,0,0,.25);}
 
 /* ─── Reset & Base ─────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -104,7 +104,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
 /* ─── Greeting Widget ──────────────────────────────────────── */
 .sidebar-greeting{display:flex;align-items:center;gap:.55rem;padding:.4rem 0;}
 .greeting-emoji{font-size:1.4rem;}
-.greeting-text{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:400;font-style:italic;color:var(--txt);letter-spacing:.01em;}
+.greeting-text{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:500;font-style:italic;color:var(--txt);letter-spacing:.01em;}
 
 /* ─── Stats Row ────────────────────────────────────────────── */
 .stats-row{display:flex;gap:.5rem;}
@@ -132,7 +132,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
 .stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.1),0 2px 6px rgba(0,0,0,.05),inset 0 1px 0 0 var(--glass-shine),0 0 0 1px var(--border-outer);}
 .stat-icon{font-size:1rem;position:relative;}
 .stat-value{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--txt);line-height:1;position:relative;}
-.stat-label{font-size:.62rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--txt-m);position:relative;}
+.stat-label{font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--txt-m);position:relative;}
 
 /* ─── Today's Mood Widget ──────────────────────────────────── */
 .today-mood-widget{display:flex;align-items:center;justify-content:space-between;padding:.2rem 0;}
@@ -154,7 +154,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
 .mini-cal-day.empty{cursor:default;}
 
 /* ─── Section Label ────────────────────────────────────────── */
-.section-label{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-m);}
+.section-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-m);}
 
 /* ─── Mood Graph ───────────────────────────────────────────── */
 .graph-section{margin-top:0;}
@@ -196,11 +196,11 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
 .entry-item:hover{transform:translateX(3px) translateY(-1px);border-color:var(--accent-soft);box-shadow:0 8px 24px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.05),inset 0 1px 0 0 var(--glass-shine);}
 .entry-item.active{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 2px 12px rgba(0,0,0,.07),inset 0 1px 0 0 var(--glass-shine);}
 .entry-item-title{font-size:.82rem;font-weight:500;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative;}
-.entry-item-meta{display:flex;align-items:center;gap:.4rem;margin-top:.2rem;font-size:.68rem;color:var(--txt-m);position:relative;}
+.entry-item-meta{display:flex;align-items:center;gap:.4rem;margin-top:.2rem;font-size:.68rem;color:var(--txt);opacity:.7;position:relative;}
 .entry-thumb{width:26px;height:26px;border-radius:6px;object-fit:cover;margin-left:auto;}
 .entry-tags-preview{display:flex;gap:.2rem;flex-wrap:wrap;margin-top:.25rem;position:relative;}
 .entry-tag-mini{font-size:.58rem;padding:.1rem .35rem;border-radius:10px;background:var(--accent-soft);color:var(--accent);}
-.empty-state{font-size:.78rem;color:var(--txt-m);text-align:center;padding:1.2rem 0;font-style:italic;line-height:1.6;}
+.empty-state{font-size:.78rem;color:var(--txt);opacity:.65;text-align:center;padding:1.2rem 0;font-style:italic;line-height:1.6;}
 
 /* ─── Daily Quote ──────────────────────────────────────────── */
 .daily-quote{
@@ -302,7 +302,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
 .editor-wrap{display:flex;flex-direction:column;gap:.9rem;}
 
 /* ─── Date ─────────────────────────────────────────────────── */
-.date-display{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;font-style:italic;color:var(--txt-m);}
+.date-display{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;font-style:italic;color:var(--txt);opacity:.75;}
 .date-edit-btn{background:none;border:none;cursor:pointer;font-size:.85rem;opacity:.45;transition:all .25s;}
 .date-edit-btn:hover{opacity:1;transform:scale(1.1);}
 .date-input{font-size:.82rem;border:1px solid var(--border);border-radius:10px;padding:.3rem .5rem;background:var(--card);backdrop-filter:blur(12px);color:var(--txt);}
@@ -328,7 +328,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
 
 /* ─── Entry Title (Priority 3 — Typography) ────────────────── */
 .entry-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;border:none;border-bottom:2px solid var(--border);background:transparent;color:var(--txt);width:100%;padding:.4rem 0;outline:none;transition:border-color .3s;letter-spacing:-.01em;}
-.entry-title::placeholder{color:var(--txt-m);opacity:.45;}
+.entry-title::placeholder{color:var(--txt-m);opacity:.7;}
 .entry-title:focus{border-color:var(--accent);}
 
 /* ─── Prompt ───────────────────────────────────────────────── */
@@ -373,7 +373,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
   transition:all .3s;
   box-shadow:inset 0 2px 4px rgba(0,0,0,.03),0 0 0 1px var(--border-outer),inset 0 1px 0 0 var(--glass-shine);
 }
-.entry-body::placeholder{color:var(--txt-m);opacity:.5;}
+.entry-body::placeholder{color:var(--txt-m);opacity:.7;}
 .entry-body:focus{border-color:var(--accent);box-shadow:inset 0 2px 4px rgba(0,0,0,.03),0 0 0 3px rgba(0,0,0,.03),inset 0 1px 0 0 var(--glass-shine);}
 
 /* ─── Editor Toolbar ───────────────────────────────────────── */
@@ -417,11 +417,11 @@ body{font-family:'DM Sans',sans-serif;color:var(--txt);min-height:100vh;backgrou
   box-shadow:inset 0 1px 2px rgba(0,0,0,.03),inset 0 1px 0 0 var(--glass-shine);
 }
 .tag-input:focus{border-color:var(--accent);width:160px;}
-.tag-input::placeholder{color:var(--txt-m);opacity:.6;}
+.tag-input::placeholder{color:var(--txt-m);opacity:.75;}
 
 /* ─── Action bar ───────────────────────────────────────────── */
 .action-bar{display:flex;align-items:center;justify-content:space-between;padding-top:.3rem;}
-.char-count{font-size:.75rem;color:var(--txt-m);}
+.char-count{font-size:.75rem;color:var(--txt);opacity:.6;}
 
 /* ─── Save Button (Priority 4 — Polished) ──────────────────── */
 .save-btn{
