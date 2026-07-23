@@ -359,3 +359,5 @@ Manipal University Jaipur
 *"Every memory deserves a beautiful home."*
 
 </p>
+
+Minor documentation update.
